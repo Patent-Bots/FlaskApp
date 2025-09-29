@@ -27,7 +27,7 @@ def sample_api(value):
         return msg, 500
 
 
-@app.route('/healthz')
+@app.route('/health')
 def health_check():
     return 'ok', 200
 

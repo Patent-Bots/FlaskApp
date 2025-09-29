@@ -2,14 +2,13 @@
 A simple Python/Flask app to deploy using containerization and infrastructure-as-code.
 
 ## Goal
-In 2–3 hours, containerize this app and deploy it to a managed container service using IaC. Prefer AWS App Runner and/or GCP Cloud Run (either one is acceptable; both are a plus if time permits).
+In roughly 2–3 hours, deploy this app to a managed service using IaC. Prefer GCP App Engine and/or AWS Elastic Beanstalk (either one is acceptable; both are a plus if time permits).
 
 ## Prerequisites
-- AWS CLI configured with permissions for ECR, App Runner, IAM
-- and/or gcloud CLI with permissions for Artifact Registry, Cloud Run, IAM
+- AWS CLI configured with permissions for Elastic Beanstalk
+- and/or gcloud CLI with permissions for App Engine
 
 ## Time Allocation Suggestion
-- Containerization: 30 minutes
 - Infrastructure code: 90 minutes  
 - Documentation: 30 minutes
 
@@ -24,21 +23,16 @@ In 2–3 hours, containerize this app and deploy it to a managed container servi
    - `curl http://localhost:8080/api/5`
 
 ## What to Build
-- Container image for the app.
-- Infrastructure-as-code to deploy:
-  - Option A: AWS App Runner
-  - Option B: GCP Cloud Run
+- Infrastructure-as-code to deploy app to:
+  - Option A: GCP App Engine
+  - Option B: AWS Elastic Beanstalk
   - Option C (stretch): both
-- Public URL(s) to reach `/` and `/api/<value>`.
+- Public URL(s) to reach the endpoints listed under "Definition of Done" below.
 - Basic logging visible in the platform logs.
-- Health check endpoint exposed at `/healthz`
+- Health check endpoint exposed at `/health`
 
 ## Constraints and Assumptions
-- Tools: Terraform preferred (v1.5+). Pulumi or CDK acceptable with a brief justification.
-- Container runtime: Docker. Use a simple `Dockerfile`.
-- Registries:
-  - AWS: ECR (or use App Runner source from GitHub if you prefer).
-  - GCP: Artifact Registry.
+- Tools: Terraform preferred (v1.5+). Pulumi or other alternatives acceptable with a brief justification.
 - State: Local Terraform state file is fine (no need to set up remote state).
 - IAM/Project setup: You may assume an account/project exists and credentials are configured. Document any required roles.
 - Regions: Single region of your choice.
@@ -49,11 +43,10 @@ In 2–3 hours, containerize this app and deploy it to a managed container servi
 - `curl $APP_URL/` returns "Hello, World!"
 - `curl $APP_URL/api/5` returns `{"success": true, "answer": 6}`
 - `curl $APP_URL/api/10` returns "Caught exception when calculating results: Invalid value!"
-- `curl $APP_URL/healthz` returns "ok"
+- `curl $APP_URL/health` returns "ok"
 - Platform logs show application startup and request logs
 
-## Deliverables Checklist
-- Dockerfile at repo root.
+## Deliverables Checklist (assuming you chose Terraform)
 - IaC under `infra/aws/` and/or `infra/gcp/` with:
   - `main.tf`, `variables.tf`, `outputs.tf`
   - `terraform.tfvars.example` (no real secrets)
@@ -75,7 +68,7 @@ In 2–3 hours, containerize this app and deploy it to a managed container servi
 - Security/Cost: Sensible defaults for least privilege and cost awareness considered/discussed.
 - Pragmatism: Fits within 2–3 hours; good trade-offs.
 
-## Stretch Topics (Choose 2-3 to discuss in DECISIONS.md; do not implement fully)
+## Stretch Topics (Choose 1-2 to discuss in DECISIONS.md; do not implement fully)
 - How would you implement blue/green deployments with this setup?
 - What monitoring/alerting would you add for a team supporting this service?
 - How would you handle secrets management for database connections?
